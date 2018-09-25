@@ -1,0 +1,79 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 10s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+    color: yellow;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.button1 {
+    background-color: black;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+}
+.buttonClass {
+    margin: auto;
+    width: 50%;
+}
+.labelClass{
+    margin: auto;
+    height: 50px;
+}
+.tableClass {
+    margin: auto;
+    width: 100%;
+}
+.labelTableClass{
+    margin: 5px;
+    height: 10px;
+    width: 100%;
+}
+.zoom {
+    transition: transform .2s; /* Animation */
+    margin: 5px;
+}
+.zoom:hover {
+    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.button1:disabled {
+    background-color: blue;
+}
+.zoom:disabled {
+    background-color: grey;
+    transform: none;
+}
+.square{
+    background-color: black;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+
+}
+
+.CategoryText{
+    font-size: larger;
+    color: black;
+}

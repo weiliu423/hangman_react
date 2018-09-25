@@ -1,0 +1,8 @@
+{
+  "Category" : "Countries",
+  "Answers" : [
+    {"Word" : "IRELAND", "ID" : "1"},
+    {"Word" : "ENGLAND", "ID" : "2"},
+    {"Word" : "GERMANY", "ID" : "3"},
+    {"Word" : "JAPAN", "ID" : "4"}]
+}

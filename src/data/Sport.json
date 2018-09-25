@@ -1,0 +1,8 @@
+{
+  "Category" : "Sport",
+  "Answers" : [
+    {"Word" : "POLO", "ID" : "1"},
+    {"Word" : "GOLF", "ID" : "2"},
+    {"Word" : "TENNIS", "ID" : "3"},
+    {"Word" : "SOCCER", "ID" : "4"}]
+}
