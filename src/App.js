@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './1.png';
-import './App.css';
+import './Style/App.css';
+import './Style/Buttons.css'
 import { FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import { Redirect } from 'react-router-dom'
 
@@ -145,7 +146,7 @@ export class main extends Component {
    }
    createLabel(letter){
        return (
-           <button className="square">{letter}</button>
+           <button className="square" disabled={true}>{letter}</button>
        );
    }
    containerWords(){
@@ -154,52 +155,57 @@ export class main extends Component {
        return children
    }
    clicked(letter) {
-        let disableButtons = this.state.disableButtons;
-        disableButtons.push(letter);
-        this.setState({disableButtons});
-        let array;
-        array = words;
-        let wordArray = this.state.wordArray;
-       console.log("array of answer " + answer);
-       for(var x = 0; x < array.length; x++ )
-       {
-           if(answer[x].includes(letter)) {
-               console.log("same " + letter);
-               words[x] = letter;
-               wordArray.push(letter);
-               /*}
-               else if (words[x].includes(letter) && wordArray[x] !== ' ')
-               {
-                   console.log("not same " + letter);
-                  wordArray.push(' ');
-               }else
-               {
-                   console.log("else " + letter);
-                  wordArray.push(' ');
-               }*/
-           }
-       }
-       if(JSON.stringify(answer) === JSON.stringify(words))
-       {
+        let end = this.state.wordArray;
 
-       }
-      // array = [];
-       //this.setState({wordArray});
-      // array.map((numbers, i) => {return main.updateLabel(i,letter)});
-        this.setState({change : true});
+        if(end.length === 6)
+        {
+            {this.startNewGame()}
+        }else {
+            let disableButtons = this.state.disableButtons;
+            disableButtons.push(letter);
+            this.setState({disableButtons});
+            let array;
+            array = words;
+            let wordArray = this.state.wordArray;
+            console.log("array of answer " + answer);
+            for(var x = 0; x < array.length; x++ )
+            {
+                if(answer[x].includes(letter)) {
+                    words[x] = letter;
+                }
+            }
+            wordArray.push(letter);
+            // array = [];
+            this.setState({wordArray});
+            // array.map((numbers, i) => {return main.updateLabel(i,letter)});
+            this.setState({change : true});
+        }
+
     }
     newGame(){
+        let end = this.state.wordArray;
         if(JSON.stringify(answer) === JSON.stringify(words))
         {
+            words = [];
             return(
                 <div>
-                    <button class=""></button>
+                    <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
                 </div>
             )
             /*words = [];
             {this.addWord()}*/
             //this.setState({change : true});
-        }else
+        }else if(end.length === 6)
+        {
+            words = [];
+            return(
+                <div>
+
+                    <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
+                </div>
+            )
+        }
+        else
         {
             return(
                 <div className="buttonClass">
@@ -212,8 +218,21 @@ export class main extends Component {
     }
     startNewGame()
     {
-
+        words = [];
+        answer = [];
+        {this.addWord()}
+        let disableButtons = this.state.disableButtons;
+        disableButtons = [];
+        this.setState({disableButtons});
+        return(
+            <div className="buttonClass">
+                {this.createButton()}
+                {this.showCategory()}
+                {this.containerWords()}
+            </div>
+        )
     }
+
     dynamicButton(letter) {
         let disable =  this.state.disableButtons.includes(letter);
         return (
@@ -234,6 +253,7 @@ export class main extends Component {
         //children.push(data.map((data) => <Button bsStyle="warning" bsSize="large" >{data}</Button>));
         table.push(<table class="tableClass">{rows}</table>);
         return table
+
     };
     main = () => {
         return (
