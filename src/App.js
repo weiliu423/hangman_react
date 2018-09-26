@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './1.png';
+import hangMan from './pics/hangman-0.png'
 import './Style/App.css';
 import './Style/Buttons.css'
 import { FormGroup, FormControl, ControlLabel} from "react-bootstrap";
@@ -246,7 +247,9 @@ export class main extends Component {
             </div>
         )
     }
+    loadHangMan(){
 
+    }
     dynamicButton(letter) {
         let disable =  this.state.disableButtons.includes(letter);
         return (
@@ -279,6 +282,9 @@ export class main extends Component {
                 <p className="App-intro">
                     {this.newGame()}
                 </p>
+                    <div>
+                        <img src={hangMan} alt="Smiley face" />
+                    </div>
             </div>
         )
 
