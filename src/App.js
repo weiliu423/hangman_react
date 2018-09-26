@@ -11,6 +11,9 @@ const row3 = ['R','S','T','U','V','W','X','Y','Z'];
 var words = [];
 var answer = [];
 var categories = '';
+var Sport = require('./data/Sport.json');
+var Food = require('./data/Food.json');
+var Countries = require('./data/Countries.json');
 
 export default class App extends Component {
     constructor(props) {
@@ -121,9 +124,7 @@ export class main extends Component {
        let cateG = [];
        var maxCat = 3;
        var ranCate = Math.floor((Math.random() * maxCat));
-       var Sport = require('./data/Sport.json');
-       var Food = require('./data/Food.json');
-       var Countries = require('./data/Countries.json');
+
        cateG.push(Sport);
        cateG.push(Food);
        cateG.push(Countries);
@@ -155,11 +156,14 @@ export class main extends Component {
        return children
    }
    clicked(letter) {
-        let end = this.state.wordArray;
+        let wordArray = this.state.wordArray;
 
-        if(end.length === 6)
+        if(wordArray.length === answer.length)
         {
             {this.NewGame()}
+            wordArray = [];
+            this.setState({wordArray});
+
         }else {
             let disableButtons = this.state.disableButtons;
             disableButtons.push(letter);
@@ -183,10 +187,11 @@ export class main extends Component {
 
     }
     newGame(){
-        let end = this.state.wordArray;
+        let wordArray = this.state.wordArray;
         if(JSON.stringify(answer) === JSON.stringify(words))
         {
             words = [];
+            answer = [];
             return(
                 <div>
                     <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
@@ -194,13 +199,19 @@ export class main extends Component {
             )
             /*words = [];
             {this.addWord()}*/
-            //this.setState({change : true});
-        }else if(end.length === 6)
+        }else if(wordArray.length === answer.length)
         {
+            let str = answer;
             words = [];
+            answer = [];
+            let str1 = str.toString();
+            for(let i=0; i <str1.length; i++)
+            {
+                str1 = str1.replace(',', '');
+            }
             return(
                 <div>
-
+                    <div className="errorMessage">Out of Attempt: The correct answer is {str1}</div>
                     <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
                 </div>
             )
@@ -221,6 +232,9 @@ export class main extends Component {
         words = [];
         answer = [];
         {this.addWord()}
+        let wordArray = this.state.wordArray;
+        wordArray = [];
+        this.setState({wordArray});
         let disableButtons = this.state.disableButtons;
         disableButtons = [];
         this.setState({disableButtons});
