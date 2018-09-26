@@ -159,7 +159,7 @@ export class main extends Component {
 
         if(end.length === 6)
         {
-            {this.startNewGame()}
+            {this.NewGame()}
         }else {
             let disableButtons = this.state.disableButtons;
             disableButtons.push(letter);
