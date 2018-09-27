@@ -59,6 +59,7 @@ export default class App extends Component {
                     >{this.renderRedirect()}
                         Sign Up
                     </button>
+
                 </form>
             </div>
                     </div>

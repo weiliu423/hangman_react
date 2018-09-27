@@ -1,3 +1,8 @@
+body {
+    font-family: sans-serif;
+    margin: auto;
+    width: 100%;
+}
 .App {
   text-align: center;
 }
@@ -30,16 +35,16 @@
 }
 
 .App-intro {
-  font-size: 2vw;
+    font-size: 2vw;
     color: yellow;
     text-align: center;
-   margin: auto;
+    margin: auto;
     position: absolute;
     left: 0;
     right: 0;
     font-family: "lato", sans-serif;
-    font-weight: 300;
-    letter-spacing: 10px;
+    font-weight: 100;
+    letter-spacing: 3px;
     padding-left: 10px;
 }
 
@@ -81,7 +86,7 @@
     margin-top: 10vw;
     font-size: 1.5vw;
     text-align: center;
-    color: white;
+    color: greenyellow;
 }
 .hangManPic{
     margin-top: 10px;
