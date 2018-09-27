@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
-import logo from './1.png';
-import hangMan from './pics/hangman-0.png'
+import logo from './pics/1.png';
 import './Style/App.css';
 import './Style/Buttons.css'
 import { FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import { Redirect } from 'react-router-dom'
+var loginDetails = require('./data/loginData.json');
 
-const row1 = ['A','B','C','D','E','F','G','H','I'];
-const row2 = ['J','K','L','M','N','O','P','Q'];
-const row3 = ['R','S','T','U','V','W','X','Y','Z'];
-var words = [];
-var answer = [];
-var categories = '';
-var Sport = require('./data/Sport.json');
-var Food = require('./data/Food.json');
-var Countries = require('./data/Countries.json');
 
 export default class App extends Component {
     constructor(props) {
@@ -36,10 +27,11 @@ export default class App extends Component {
                     <h1 className="App-title">Welcome to HangMan game</h1>
                 </header>
                 <p className="App-intro">
-            <div className="Login">
+                    <div id='title'>
+            <div className="login-form">
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="username" bsSize="large">
-                        <ControlLabel>username</ControlLabel>
+                    <FormGroup controlId="username" bsSize="small">
+                  <ControlLabel>UserName</ControlLabel>
                         <FormControl
                             autoFocus
                             type="string"
@@ -47,7 +39,7 @@ export default class App extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="password" bsSize="large">
+                    <FormGroup controlId="password" bsSize="small">
                         <ControlLabel>Password</ControlLabel>
                         <FormControl
                             value={this.state.password}
@@ -55,16 +47,25 @@ export default class App extends Component {
                             type="password"
                         />
                     </FormGroup>
-                    <button class="btn peach-gradient btn-rounded"
+                    <button className="loginButton"
                         disabled={!this.validateForm()}
                         type="submit"
                      >{this.renderRedirect()}
                         Login
                     </button>
+                    <button className="loginButton"
+                            disabled={!this.validateForm()}
+                            type="submit"
+                    >{this.renderRedirect()}
+                        Sign Up
+                    </button>
                 </form>
             </div>
+                    </div>
                 </p>
             </div>
+
+
         )
 
     };
@@ -81,17 +82,27 @@ export default class App extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        if(this.state.username === "a" && this.state.password === "a" )
+        console.log(this.state.username + ' - ' + this.state.password);
+        for(let x = 0; x < loginDetails.details.length; x++)
         {
-            this.setState({
-                redirect: true
-            });
-            return true
-        }else
-        {
-            alert("Incorrect");
+            console.log(loginDetails.details[x].username + ' - ' + loginDetails.details[x].password);
+            if(loginDetails.details[x].username === this.state.username
+                && loginDetails.details[x].password === this.state.password)
+            {
+                this.setState({
+                    redirect: true
+                });
+                return true
+            }else if(loginDetails.details[x].username.includes(this.state.username)
+                && loginDetails.details[x].password !== (this.state.password))
+            {
+                alert("Incorrect password!! Please try again.");
+            }
+            else{
+                alert("Incorrect username or password!! Please try again.");
+            }
         }
-       //<Redirect to='/main' />;
+
     };
     renderRedirect = () => {
         if (this.state.redirect) {
@@ -103,201 +114,4 @@ export default class App extends Component {
             this.login()
         );
     }
-}
-export class main extends Component {
-    constructor(props) {
-        super(props);
-        {this.addWord()}
-        this.state = {
-            disabled: false,
-            disableButtons : [],
-            change: false,
-            wordArray : [],
-            img : []
-        };
-
-    }
-   showCategory(){
-
-        return <div class="CategoryText">Category is {categories}</div>
-   }
-   addWord()
-   {
-       let cateG = [];
-       var maxCat = 3;
-       var ranCate = Math.floor((Math.random() * maxCat));
-
-       cateG.push(Sport);
-       cateG.push(Food);
-       cateG.push(Countries);
-       let Cate = cateG[ranCate].Category;
-       categories = Cate;
-       console.log(categories);
-       let word;
-       var maxNumber = 3;
-       var randomNumber = Math.floor((Math.random() * maxNumber));
-
-       var data = require('./data/'+categories+'.json');
-       word = data.Answers[randomNumber].Word;
-
-       for(let i = 0; i < word.length; i++)
-       {
-           words.push('_');
-           answer.push(word.charAt(i));
-       }
-
-   }
-   createLabel(letter){
-       return (
-           <button className="square" disabled={true}>{letter}</button>
-       );
-   }
-   containerWords(){
-       let children = [];
-       children.push(words.map((row, i) => {return this.createLabel(row)}));
-       return children
-   }
-   clicked(letter) {
-        let wordArray = this.state.wordArray;
-        console.log("length: " + wordArray.length);
-        if(wordArray.length === 10)
-        {
-            {this.NewGame()}
-            wordArray = [];
-            this.setState({wordArray});
-
-        }else {
-            let disableButtons = this.state.disableButtons;
-            disableButtons.push(letter);
-            this.setState({disableButtons});
-            let array;
-            array = words;
-            let wordArray = this.state.wordArray;
-            console.log("array of answer " + answer);
-            for(var x = 0; x < array.length; x++ )
-            {
-                if(answer[x].includes(letter)) {
-                    words[x] = letter;
-                }
-            }
-            if(!answer.includes(letter)) {
-                wordArray.push(letter);
-            }
-            // array = [];
-            this.setState({wordArray});
-            // array.map((numbers, i) => {return main.updateLabel(i,letter)});
-            this.setState({change : true});
-        }
-
-    }
-    newGame(){
-        let wordArray = this.state.wordArray;
-        if(JSON.stringify(answer) === JSON.stringify(words))
-        {
-            words = [];
-            answer = [];
-            return(
-                <div>
-                    <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
-                </div>
-            )
-            /*words = [];
-            {this.addWord()}*/
-        }else if(wordArray.length === 10)
-        {
-            let str = answer;
-            words = [];
-            answer = [];
-            let str1 = str.toString();
-            for(let i=0; i <str1.length; i++)
-            {
-                str1 = str1.replace(',', '');
-            }
-            return(
-                <div>
-                    <div className="errorMessage">Out of Attempt: The correct answer is {str1}</div>
-                    <button class="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
-                </div>
-            )
-        }
-        else
-        {
-            return(
-                <div className="buttonClass">
-                    {this.createButton()}
-                    {this.showCategory()}
-                    {this.containerWords()}
-                </div>
-            )
-        }
-    }
-    startNewGame()
-    {
-        words = [];
-        answer = [];
-        {this.addWord()}
-        let wordArray = this.state.wordArray;
-        wordArray = [];
-        this.setState({wordArray});
-        let disableButtons = this.state.disableButtons;
-        disableButtons = [];
-        this.setState({disableButtons});
-        return(
-            <div className="buttonClass">
-                {this.createButton()}
-                {this.showCategory()}
-                {this.containerWords()}
-            </div>
-        )
-    }
-    loadHangMan(){
-            console.log('length :     ' + this.state.wordArray.length);
-        var images = require('./pics/hangman-'+this.state.wordArray.length+'.png');
-        return(    <img src={images} alt="Smiley face" width={"200px"} height={"200px"} />)
-    }
-    dynamicButton(letter) {
-        let disable =  this.state.disableButtons.includes(letter);
-        return (
-            <button class={"button1 zoom"} onClick={this.clicked.bind(this, letter)} disabled={disable} key={letter}>{letter}</button>
-        );
-    }
-    createButton = () => {
-        let table = [];
-        let rows = [];
-        let children = [], children1= [], children2= [];
-
-        children.push(row1.map((row1, i) => {return this.dynamicButton(row1)}));
-        rows.push(<tr>{children}</tr>);
-        children1.push(row2.map(row2 => {return this.dynamicButton(row2)}));
-        rows.push(<tr>{children1}</tr>);
-        children2.push(row3.map((row3, i) => {return this.dynamicButton(row3)}));
-        rows.push(<tr>{children2}</tr>);
-        //children.push(data.map((data) => <Button bsStyle="warning" bsSize="large" >{data}</Button>));
-        table.push(<table class="tableClass">{rows}</table>);
-        return table
-
-    };
-    main = () => {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to HangMan game</h1>
-                </header>
-                <p className="App-intro">
-                    {this.newGame()}
-                </p>
-                    <div className={"hangManPic"}>
-                        {this.loadHangMan()}
-                    </div>
-            </div>
-        )
-
-    };
-    render() {
-        return (
-            this.main()
-        );
-    }
-
 }

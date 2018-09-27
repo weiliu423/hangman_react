@@ -4,23 +4,43 @@
 
 .App-logo {
   animation: App-logo-spin infinite 10s linear;
-  height: 80px;
+    width: 6vw;;
+    height: 6vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+    background-color: black;
+    width: 100%;;
+    height:100%;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
   padding: 20px;
   color: white;
+    position: -ms-device-fixed;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2vw;
 }
 
 .App-intro {
-  font-size: large;
+  font-size: 2vw;
     color: yellow;
+    text-align: center;
+   margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-family: "lato", sans-serif;
+    font-weight: 300;
+    letter-spacing: 10px;
+    padding-left: 10px;
 }
 
 @keyframes App-logo-spin {
@@ -32,25 +52,48 @@
     height: 50px;
 }
 .tableClass {
+    position: center;
     margin: auto;
-    width: 100%;
+
+    width: 100%;;
+    height: 4.5vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
 }
 .labelTableClass{
+    position: center;
     margin: 5px;
-    height: 10px;
-    width: 100%;
+    width: 4.5vw;;
+    height: 4.5vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
 }
 
 .CategoryText{
-    font-size: larger;
-    color: black;
+    font-size: 2vw;
+    color: white;
 }
 .errorMessage{
-    margin-top: 50px;
-    font-size: 1.5em;
+    margin-top: 10vw;
+    font-size: 1.5vw;
     text-align: center;
-    color: black;
+    color: white;
 }
 .hangManPic{
     margin-top: 10px;
+}
+.login-form
+{
+    font-size: 2vw;
+    margin: auto;
+    width: 25vw;;
+    height: 25vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
 }

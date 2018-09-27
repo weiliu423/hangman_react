@@ -1,14 +1,17 @@
 .square{
     background-color: #3498db;
     margin: 5px;
-    height: 50px;
-    width: 50px;
+    width: 4.5vw;;
+    height: 4.5vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
     text-align: center;
     text-align-all: center;
 }
 .zoom {
     transition: transform .2s; /* Animation */
-    margin: 5px;
 }
 .zoom:hover {
     transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
@@ -21,40 +24,46 @@
     transform: none;
 }
 .button1 {
+    position: -ms-device-fixed;
     background-color: black;
-    height: 50px;
-    width: 50px;
+    width: 4.5vw;;
+    height: 4.5vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
     margin: 5px;
-    text-align:center;
-    -webkit-animation: bounce .3s infinite alternate;
-    -moz-animation: bounce .3s infinite alternate;
-    animation: bounce .3s infinite alternate;
-}
-@-webkit-keyframes bounce {
-    to { -webkit-transform: scale(1.2); }
-}
-@-moz-keyframes bounce {
-    to { -moz-transform: scale(1.2); }
-}
-@keyframes bounce {
-    to { transform: scale(1.2); }
+    vertical-align: middle;
+
 }
 .buttonClass {
-    margin: auto;
+    margin: 0 auto;
+    position: relative;
+    height: 50%;
     width: 50%;
 }
 .playButton {
-    position: center;
     margin: auto;
     background: #3498db;
     width: 180px;
-    padding: 4px 0;
     transform: translateX(-50%) translateY(-50%);
     border-radius: 3px;
+    position: absolute;
+    top: 50%;
 }
 .playButton:hover {
     cursor: pointer;
 }
-
-
+.loginButton{
+    position: relative;
+    background-color: greenyellow;
+    width: 11vw;;
+    height: 4.5vw;
+    min-height: 1%;
+    max-height: 100%;
+    min-width: 1%;
+    max-width: 100%;
+    margin: 5px;
+    vertical-align: middle;
+}
 
