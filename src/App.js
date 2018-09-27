@@ -112,7 +112,8 @@ export class main extends Component {
             disabled: false,
             disableButtons : [],
             change: false,
-            wordArray : []
+            wordArray : [],
+            img : []
         };
 
     }
@@ -153,13 +154,13 @@ export class main extends Component {
    }
    containerWords(){
        let children = [];
-       children.push(words.map((row1, i) => {return this.createLabel(row1)}));
+       children.push(words.map((row, i) => {return this.createLabel(row)}));
        return children
    }
    clicked(letter) {
         let wordArray = this.state.wordArray;
-
-        if(wordArray.length === answer.length)
+        console.log("length: " + wordArray.length);
+        if(wordArray.length === 10)
         {
             {this.NewGame()}
             wordArray = [];
@@ -179,7 +180,9 @@ export class main extends Component {
                     words[x] = letter;
                 }
             }
-            wordArray.push(letter);
+            if(!answer.includes(letter)) {
+                wordArray.push(letter);
+            }
             // array = [];
             this.setState({wordArray});
             // array.map((numbers, i) => {return main.updateLabel(i,letter)});
@@ -200,7 +203,7 @@ export class main extends Component {
             )
             /*words = [];
             {this.addWord()}*/
-        }else if(wordArray.length === answer.length)
+        }else if(wordArray.length === 10)
         {
             let str = answer;
             words = [];
@@ -248,7 +251,9 @@ export class main extends Component {
         )
     }
     loadHangMan(){
-
+            console.log('length :     ' + this.state.wordArray.length);
+        var images = require('./pics/hangman-'+this.state.wordArray.length+'.png');
+        return(    <img src={images} alt="Smiley face" width={"200px"} height={"200px"} />)
     }
     dynamicButton(letter) {
         let disable =  this.state.disableButtons.includes(letter);
@@ -282,8 +287,8 @@ export class main extends Component {
                 <p className="App-intro">
                     {this.newGame()}
                 </p>
-                    <div>
-                        <img src={hangMan} alt="Smiley face" />
+                    <div className={"hangManPic"}>
+                        {this.loadHangMan()}
                     </div>
             </div>
         )

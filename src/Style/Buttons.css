@@ -44,13 +44,11 @@
     width: 50%;
 }
 .playButton {
+    position: center;
+    margin: auto;
     background: #3498db;
     width: 180px;
     padding: 4px 0;
-
-    position: absolute;
-    left: 50%;
-    top: 50%;
     transform: translateX(-50%) translateY(-50%);
     border-radius: 3px;
 }
