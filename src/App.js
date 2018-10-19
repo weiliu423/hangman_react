@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import logo from './pics/1.png';
 import './Style/App.css';
-import './Style/Buttons.css'
-import { FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import { Redirect } from 'react-router-dom'
-var loginDetails = require('./data/loginData.json');
+import fetch from 'node-fetch';
 
+
+const jsonfile = require('jsonfile');
+var loginDetails = require('./data/loginData.json');
 
 export default class App extends Component {
     constructor(props) {
@@ -14,13 +15,20 @@ export default class App extends Component {
         this.state = {
             username: "",
             password: "",
-            redirect: false
+            redirect: false,
+            type: ""
 
         };
     }
-
+    componentDidMount() {
+     /*   $("button").click(function(){
+            $(this).css('color','yellow');
+            $(this).css('background-color','blue');
+        });*/
+    }
     login = () => {
         return (
+
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
@@ -29,83 +37,131 @@ export default class App extends Component {
                 <p className="App-intro">
                     <div id='title'>
             <div className="login-form">
-                <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="username" bsSize="small">
-                  <ControlLabel>UserName</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="string"
+                    <label>UserName</label>
+                        <input
+                            type="text"
+                            name={"username"}
+                            placeholder={"username"}
                             value={this.state.username}
-                            onChange={this.handleChange}
+                            onChange={e=>this.toDoUserChange(e.target.value)}
                         />
-                    </FormGroup>
-                    <FormGroup controlId="password" bsSize="small">
-                        <ControlLabel>Password</ControlLabel>
-                        <FormControl
+                        <label>Password</label>
+                        <input
+                            name={"password"}
                             value={this.state.password}
-                            onChange={this.handleChange}
                             type="password"
+                            onChange={e=>this.toDoPassChange(e.target.value)}
                         />
-                    </FormGroup>
-                    <button className="loginButton"
+                    <button onClick={this.loginType.bind(this)}
                         disabled={!this.validateForm()}
-                        type="submit"
                      >{this.renderRedirect()}
                         Login
                     </button>
-                    <button className="loginButton"
+                    <button onClick={this.signupType.bind(this)}
                             disabled={!this.validateForm()}
-                            type="submit"
                     >{this.renderRedirect()}
                         Sign Up
                     </button>
-
-                </form>
-            </div>
-                    </div>
+            </div></div>
                 </p>
             </div>
-
-
         )
 
     };
+    test(){
 
+     fetch('https://mvchub.azurewebsites.net/getallusers/',
+         {
+             method: 'GET',
+             headers: {
+                 Accept: 'application/json',
+             },
+         },)
+         .then(response => {
+             if (response.ok) {
+                 response.json().then(json => {
+                     //var object = JSON.parse(json);
+                     console.log(json);
+                 });
+             }
+             console.log(response.status);
+         });
+ }
     validateForm() {
         return this.state.username.length > 0 && this.state.password.length > 0;
     }
+    toDoUserChange(value){
+        this.setState({username : value});
+    }
+    toDoPassChange(value){
+        this.setState({password : value});
+    }
+    handleSubmit(username, password, type) {
+        console.log("in handle");
+        var data = {
+            "Username": username,
+            "Password": password
+        };
+        if(type === "signin") {
+            fetch('https://mvchub.azurewebsites.net/signin/', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(json => {
+                        console.log("****************" + json.Success);
+                        if (json.Success === true) {
+                            this.setState({
+                                redirect: true
+                            });
+                            return true
+                        }
+                        else {
+                            alert("Incorrect username or password!! Please try again.");
+                        }
+                        console.log(json);
+                    });
+                }
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
+            });
+        }else{
+            fetch('https://mvchub.azurewebsites.net/createNewAccount/', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(json => {
+                        console.log("****************" + json.Success);
+                        if (json.Success === true) {
+                            this.setState({
+                                redirect: true
+                            });
+                            return true
+                        }
+                        else {
+                            alert("User already exists");
+                        }
+                        console.log(json);
+                    });
+                }
 
-    handleSubmit = event => {
-        event.preventDefault();
-        console.log(this.state.username + ' - ' + this.state.password);
-        for(let x = 0; x < loginDetails.details.length; x++)
-        {
-            console.log(loginDetails.details[x].username + ' - ' + loginDetails.details[x].password);
-            if(loginDetails.details[x].username === this.state.username
-                && loginDetails.details[x].password === this.state.password)
-            {
-                this.setState({
-                    redirect: true
-                });
-                return true
-            }else if(loginDetails.details[x].username.includes(this.state.username)
-                && loginDetails.details[x].password !== (this.state.password))
-            {
-                alert("Incorrect password!! Please try again.");
-            }
-            else{
-                alert("Incorrect username or password!! Please try again.");
-            }
+            });
         }
-
+    };
+    loginType = () => {
+        this.handleSubmit(this.state.username, this.state.password, "signin");
+    };
+    signupType = () => {
+        this.handleSubmit(this.state.username, this.state.password, "signup");
     };
     renderRedirect = () => {
+        console.log(this.state.redirect.toString());
         if (this.state.redirect) {
             return <Redirect to='/main' />;
         }

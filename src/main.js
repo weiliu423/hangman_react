@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './pics/1.png';
 import './Style/App.css';
-import './Style/Buttons.css'
+
+import $ from "jquery";
 
 const row1 = ['A','B','C','D','E','F','G','H','I'];
 const row2 = ['J','K','L','M','N','O','P','Q'];
@@ -12,6 +13,7 @@ var categories = '';
 var Sport = require('./data/Sport.json');
 var Food = require('./data/Food.json');
 var Countries = require('./data/Countries.json');
+
 
 export class main extends Component {
     constructor(props) {
@@ -26,6 +28,13 @@ export class main extends Component {
         };
 
     }
+    componentDidMount() {
+
+        $(document).ready(function () {
+
+        });
+    }
+
     showCategory(){
 
         return <div className="CategoryText">Category is {categories}</div>
@@ -152,6 +161,7 @@ export class main extends Component {
     }
     startNewGame()
     {
+        {this.componentDidMount()};
         words = [];
         answer = [];
         {this.addWord()}

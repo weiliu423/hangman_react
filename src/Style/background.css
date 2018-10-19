@@ -57,7 +57,7 @@ html {
     position: relative;
     left: 0;
     right: 0;
-    color: #FFF;
+    /*color: #FFF;*/
     text-align: center;
     font-family: "lato", sans-serif;
     font-weight: 300;
@@ -68,7 +68,7 @@ html {
     top:40%;
 }
 #title span {
-    background: -webkit-linear-gradient(white, #38495a);
+    /*background: -webkit-linear-gradient(white, #38495a);*/
     -webkit-background-clip: text;
 }
 

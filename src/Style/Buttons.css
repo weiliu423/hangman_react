@@ -41,6 +41,7 @@
     position: relative;
     height: 50%;
     width: 50%;
+    color: yellow;
 }
 .playButton {
     margin: auto;
@@ -56,7 +57,7 @@
 }
 .loginButton{
     position: relative;
-    background-color: greenyellow;
+    background-color: transparent;
     width: 11vw;;
     height: 4.5vw;
     min-height: 1%;
@@ -65,5 +66,6 @@
     max-width: 100%;
     margin: 5px;
     vertical-align: middle;
+    border: none;
 }
 
