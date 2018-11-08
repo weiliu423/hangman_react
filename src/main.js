@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './pics/1.png';
 import './Style/App.css';
-
-import $ from "jquery";
 
 const row1 = ['A','B','C','D','E','F','G','H','I'];
 const row2 = ['J','K','L','M','N','O','P','Q'];
 const row3 = ['R','S','T','U','V','W','X','Y','Z'];
 var words = [];
 var answer = [];
+var countGame = [0,0,0];
 var categories = '';
 var Sport = require('./data/Sport.json');
 var Food = require('./data/Food.json');
 var Countries = require('./data/Countries.json');
-
+const uuidv4 = require('uuid/v4');
 
 export class main extends Component {
     constructor(props) {
@@ -24,18 +23,42 @@ export class main extends Component {
             disableButtons : [],
             change: false,
             wordArray : [],
-            img : []
+            img : [],
+            bubble1: "",
+            bubble2: <div className="speech-bubble">
+                <button onClick={this.hideBubble.bind(this)} key={uuidv4()} className="close"/>
+                <div className="arrow bottom right"/>
+                Rules:
+                <br />
+                1.Start guessing letters if you are the player.
+                <br />
+                2.Fill the letter in the blanks if the players guess correctly.
+                <br />
+                3.Draw part of the "hangman" when the players guess wrong.
+                <br />
+                4. The players win when they guess the correct word
+                <br />
+            </div>
         };
 
     }
-    componentDidMount() {
 
-        $(document).ready(function () {
-
-        });
+    showBubble(){
+        this.setState({ bubble1: <div className="speech-bubble1">
+                <button onClick={this.hideBubble1.bind(this)} key={uuidv4()} className="close"/>
+                <div className="arrow bottom1 right"/>
+                Click any letter button to start the game!
+            </div> })
     }
+    hideBubble(){
+        this.setState({ bubble2: "" });
+        this.showBubble();
+    }
+    hideBubble1(){
+        this.setState({ bubble1: "" });
 
-    showCategory(){
+    }
+    static showCategory(){
 
         return <div className="CategoryText">Category is {categories}</div>
     }
@@ -48,14 +71,13 @@ export class main extends Component {
         cateG.push(Sport);
         cateG.push(Food);
         cateG.push(Countries);
-        let Cate = cateG[ranCate].Category;
-        categories = Cate;
+        categories = cateG[ranCate].Category;
         console.log(categories);
         let word;
-        var maxNumber = 3;
-        var randomNumber = Math.floor((Math.random() * maxNumber));
+        const maxNumber = 3;
+        const randomNumber = Math.floor((Math.random() * maxNumber));
 
-        var data = require('./data/'+categories+'.json');
+        const data = require('./data/'+categories+'.json');
         word = data.Answers[randomNumber].Word;
 
         for(let i = 0; i < word.length; i++)
@@ -65,14 +87,14 @@ export class main extends Component {
         }
 
     }
-    createLabel(letter){
+    static createLabel(letter){
         return (
-            <button className="square" disabled={true}>{letter}</button>
+            <button className="square" key={uuidv4()} disabled={true}>{letter}</button>
         );
     }
     containerWords(){
         let children = [];
-        children.push(words.map((row, i) => {return this.createLabel(row)}));
+        children.push(words.map((row, i) => {return main.createLabel(row)}));
         return children
     }
     clicked(letter) {
@@ -80,7 +102,7 @@ export class main extends Component {
         console.log("length: " + wordArray.length);
         if(wordArray.length === 10)
         {
-            {this.NewGame()}
+            {this.newGame()}
             wordArray = [];
             this.setState({wordArray});
 
@@ -92,7 +114,7 @@ export class main extends Component {
             array = words;
             let wordArray = this.state.wordArray;
             console.log("array of answer " + answer);
-            for(var x = 0; x < array.length; x++ )
+            for(let x = 0; x < array.length; x++ )
             {
                 if(answer[x].includes(letter)) {
                     words[x] = letter;
@@ -103,15 +125,17 @@ export class main extends Component {
             }
             // array = [];
             this.setState({wordArray});
-            // array.map((numbers, i) => {return main.updateLabel(i,letter)});
+            // array.map((numbers, i) => {return homePage.updateLabel(i,letter)});
             this.setState({change : true});
         }
 
     }
     newGame(){
+
         let wordArray = this.state.wordArray;
         if(JSON.stringify(answer) === JSON.stringify(words))
         {
+            countGame[1] = countGame[1] + 1;
             let str = answer;
             words = [];
             answer = [];
@@ -123,13 +147,14 @@ export class main extends Component {
             return(
                 <div>
                     <div className="errorMessage">Congratulation: You got correct answer - {str1}</div>
-                    <button className="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
+                    <button className="playButton" key={uuidv4()} onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
                 </div>
             )
             /*words = [];
             {this.addWord()}*/
         }else if(wordArray.length === 10)
         {
+            countGame[2] = countGame[2] + 1;
             let str = answer;
             words = [];
             answer = [];
@@ -141,19 +166,35 @@ export class main extends Component {
             return(
                 <div>
                     <div className="errorMessage">Out of Attempt: The correct answer is {str1}</div>
-                    <button className="playButton" onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
+                    <button className="playButton" key={uuidv4()} onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
                 </div>
             )
         }
-        else
-        {
+        else{
+
             return(
-                <div className="buttonClass">
+
+                <div>
+                    <div className="row">
+                        <div className="column">
+                            {this.state.bubble2}
+                        </div>
+                        <div className="column">
+                            <div className={"hangManPic"}>
+                                {this.loadHangMan()}
+                            </div>
+                        </div>
+                        <div className="column">
+                            <p>Game Played: {countGame[0]}</p>
+                            <p>Won: {countGame[1]}</p>
+                            <p>Lost: {countGame[2]}</p>
+                            {this.state.bubble1}
+                        </div>
+                    </div>
+                    <div className="buttonClass">
                     {this.createButton()}
-                    {this.showCategory()}
+                    {main.showCategory()}
                     {this.containerWords()}
-                    <div className={"hangManPic"}>
-                        {this.loadHangMan()}
                     </div>
                 </div>
             )
@@ -161,7 +202,7 @@ export class main extends Component {
     }
     startNewGame()
     {
-        {this.componentDidMount()};
+        countGame[0] = countGame[0] + 1;
         words = [];
         answer = [];
         {this.addWord()}
@@ -173,12 +214,13 @@ export class main extends Component {
         this.setState({disableButtons});
         return(
             <div className="buttonClass">
-                {this.createButton()}
-                {this.showCategory()}
-                {this.containerWords()}
                 <div className={"hangManPic"}>
                     {this.loadHangMan()}
                 </div>
+                {this.createButton()}
+                {main.showCategory()}
+                {this.containerWords()}
+
             </div>
         )
     }
@@ -186,12 +228,13 @@ export class main extends Component {
         console.log('length :  ' + this.state.wordArray.length);
         var images = require('./pics/hangman-'+this.state.wordArray.length+'.png');
         console.log(images);
-        return(    <img src={images} alt="Smiley face" width={"200px"} height={"200px"} />)
+        return(    <img className={"img"} src={images} alt="Smiley face" />)
     }
     dynamicButton(letter) {
         let disable =  this.state.disableButtons.includes(letter);
         return (
-            <button className={"button1 zoom"} onClick={this.clicked.bind(this, letter)} disabled={disable} key={letter}>{letter}</button>
+            <button className={"button1 zoom"} onClick={this.clicked.bind(this, letter)} disabled={disable} key={uuidv4()}>
+                {letter}</button>
         );
     }
     createButton = () => {
@@ -200,23 +243,19 @@ export class main extends Component {
         let children = [], children1= [], children2= [];
 
         children.push(row1.map((row1, i) => {return this.dynamicButton(row1)}));
-        rows.push(<tr>{children}</tr>);
+        rows.push(<tr><td>{children}</td></tr>);
         children1.push(row2.map(row2 => {return this.dynamicButton(row2)}));
-        rows.push(<tr>{children1}</tr>);
+        rows.push(<tr><td>{children1}</td></tr>);
         children2.push(row3.map((row3, i) => {return this.dynamicButton(row3)}));
-        rows.push(<tr>{children2}</tr>);
+        rows.push(<tr><td>{children2}</td></tr>);
         //children.push(data.map((data) => <Button bsStyle="warning" bsSize="large" >{data}</Button>));
-        table.push(<table className="tableClass">{rows}</table>);
+        table.push(<table className="tableClass"><tbody>{rows}</tbody></table>);
         return table
 
     };
     main = () => {
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to HangMan game</h1>
-                </header>
                 <div id='title'>
                 <div className="App-intro">
                     {this.newGame()}

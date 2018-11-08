@@ -4,5 +4,9 @@
     {"Word" : "CAKE", "ID" : "1"},
     {"Word" : "BUN", "ID" : "2"},
     {"Word" : "RICE", "ID" : "3"},
-    {"Word" : "NOODLE", "ID" : "4"}]
+    {"Word" : "WAFFLE", "ID" : "4"},
+    {"Word" : "STEAK", "ID" : "5"},
+    {"Word" : "SALAD", "ID" : "6"},
+    {"Word" : "BURGER", "ID" : "7"},
+    {"Word" : "NOODLE", "ID" : "8"}]
 }

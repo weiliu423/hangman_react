@@ -3,90 +3,39 @@ import logo from './pics/1.png';
 import './Style/App.css';
 import { Redirect } from 'react-router-dom'
 import fetch from 'node-fetch';
-
-
-const jsonfile = require('jsonfile');
-var loginDetails = require('./data/loginData.json');
+import './Style/loading.css'
 
 export default class App extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             username: "",
             password: "",
             redirect: false,
-            type: ""
-
+            type: "",
+            show: false,
+            result: ""
         };
     }
-    componentDidMount() {
-     /*   $("button").click(function(){
-            $(this).css('color','yellow');
-            $(this).css('background-color','blue');
-        });*/
-    }
-    login = () => {
-        return (
-
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to HangMan game</h1>
-                </header>
-                <p className="App-intro">
-                    <div id='title'>
-            <div className="login-form">
-                    <label>UserName</label>
-                        <input
-                            type="text"
-                            name={"username"}
-                            placeholder={"username"}
-                            value={this.state.username}
-                            onChange={e=>this.toDoUserChange(e.target.value)}
-                        />
-                        <label>Password</label>
-                        <input
-                            name={"password"}
-                            value={this.state.password}
-                            type="password"
-                            onChange={e=>this.toDoPassChange(e.target.value)}
-                        />
-                    <button onClick={this.loginType.bind(this)}
-                        disabled={!this.validateForm()}
-                     >{this.renderRedirect()}
-                        Login
-                    </button>
-                    <button onClick={this.signupType.bind(this)}
-                            disabled={!this.validateForm()}
-                    >{this.renderRedirect()}
-                        Sign Up
-                    </button>
-            </div></div>
-                </p>
-            </div>
-        )
-
+    onShow = ()=> {
+        this.setState({ show: true })
     };
-    test(){
+    onHide = ()=> {
+        this.setState({ show: false })
+    };
+    componentDidMount() {
+    }
 
-     fetch('https://mvchub.azurewebsites.net/getallusers/',
-         {
-             method: 'GET',
-             headers: {
-                 Accept: 'application/json',
-             },
-         },)
-         .then(response => {
-             if (response.ok) {
-                 response.json().then(json => {
-                     //var object = JSON.parse(json);
-                     console.log(json);
-                 });
-             }
-             console.log(response.status);
-         });
- }
+    loading(){
+        if(this.state.show){
+            return <div className={"space"}>
+                <div className = "bar" >
+                 </div>
+            </div>
+        }else {
+
+        }
+    }
     validateForm() {
         return this.state.username.length > 0 && this.state.password.length > 0;
     }
@@ -97,6 +46,8 @@ export default class App extends Component {
         this.setState({password : value});
     }
     handleSubmit(username, password, type) {
+        this.onShow();
+        this.setState({ result: "Validating, Please Wait. Thank You" });
         console.log("in handle");
         var data = {
             "Username": username,
@@ -114,13 +65,20 @@ export default class App extends Component {
                     response.json().then(json => {
                         console.log("****************" + json.Success);
                         if (json.Success === true) {
-                            this.setState({
-                                redirect: true
-                            });
+                            setTimeout(function() { //Start the timer
+                                this.onHide();
+                                this.setState({ result: "Success"});
+                                this.setState({
+                                    redirect: true
+                                });
+                            }.bind(this), 2000);
                             return true
                         }
                         else {
-                            alert("Incorrect username or password!! Please try again.");
+                            setTimeout(function() { //Start the timer
+                                this.onHide();
+                                this.setState({ result: "Incorrect username or password!" })
+                            }.bind(this), 2000);
                         }
                         console.log(json);
                     });
@@ -128,29 +86,30 @@ export default class App extends Component {
 
             });
         }else{
-            fetch('https://mvchub.azurewebsites.net/createNewAccount/', {
+            fetch('https://mvchub.azurewebsites.net/createNewAccount', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
-                if (response.ok) {
                     response.json().then(json => {
-                        console.log("****************" + json.Success);
+                        console.log(json.Success);
                         if (json.Success === true) {
+                            this.onHide();
                             this.setState({
                                 redirect: true
                             });
                             return true
                         }
                         else {
-                            alert("User already exists");
+                            setTimeout(function() { //Start the timer
+                                this.onHide();
+                                this.setState({ result: "User already exist!" })
+                            }.bind(this), 2000);
                         }
                         console.log(json);
                     });
-                }
-
             });
         }
     };
@@ -165,6 +124,57 @@ export default class App extends Component {
         if (this.state.redirect) {
             return <Redirect to='/main' />;
         }
+    };
+    login = () => {
+        return (
+
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <h1 className="App-title">Welcome to HangMan game</h1>
+                </header>
+                <div className="App-intro">
+                    <div id='title'>
+                        <div className="login-form">
+                            <label className={"labelClass"}>USERNAME</label>
+                            <input
+                                type="text"
+                                name={"username"}
+                                placeholder={"USERNAME"}
+                                value={this.state.username}
+                                onChange={e=>this.toDoUserChange(e.target.value)}
+                            />
+                            <label className={"labelClass"}>PASSWORD</label>
+                            <input
+                                name={"password"}
+                                value={this.state.password}
+                                type="password"
+                                placeholder={"PASSWORD"}
+                                onChange={e=>this.toDoPassChange(e.target.value)}
+                            />
+                            <div className="row">
+                                <div className="column1">
+                            <button className={"myButton spin circle"} onClick={this.loginType.bind(this)}
+                                    disabled={!this.validateForm()}
+                            >{this.renderRedirect()}
+                                Sign In
+                            </button>
+                                </div>
+                                <div className="column1">
+                            <button className={"myButton spin circle"} onClick={this.signupType.bind(this)}
+                                    disabled={!this.validateForm()}
+                            >{this.renderRedirect()}
+                                Sign Up
+                            </button>
+                                </div>
+                        </div>
+                        <label className={"error"}>{this.state.result}</label>
+                        {this.loading()}
+                    </div>
+                    </div>
+                </div>
+            </div>
+        )
     };
     render() {
         return (

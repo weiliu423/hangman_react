@@ -1946,7 +1946,7 @@ Then in `package.json`, add the following line to `scripts`:
 
 ```diff
    "scripts": {
-+    "analyze": "source-map-explorer build/static/js/main.*",
++    "analyze": "source-map-explorer build/static/js/homePage.*",
      "start": "react-scripts start",
      "build": "react-scripts build",
      "test": "react-scripts test --env=jsdom",
@@ -1962,7 +1962,7 @@ npm run analyze
 
 ## Deployment
 
-`npm run build` creates a `build` directory with a production build of your app. Set up your favorite HTTP server so that a visitor to your site is served `index.html`, and requests to static paths like `/static/js/main.<hash>.js` are served with the contents of the `/static/js/main.<hash>.js` file.
+`npm run build` creates a `build` directory with a production build of your app. Set up your favorite HTTP server so that a visitor to your site is served `index.html`, and requests to static paths like `/static/js/homePage.<hash>.js` are served with the contents of the `/static/js/homePage.<hash>.js` file.
 
 ### Static Server
 
@@ -2469,7 +2469,7 @@ Some third-party packages don't compile their code to ES5 before publishing to n
 To resolve this:
 
 1. Open an issue on the dependency's issue tracker and ask that the package be published pre-compiled.
-  * Note: Create React App can consume both CommonJS and ES modules. For Node.js compatibility, it is recommended that the main entry point is CommonJS. However, they can optionally provide an ES module entry point with the `module` field in `package.json`. Note that **even if a library provides an ES Modules version, it should still precompile other ES6 features to ES5 if it intends to support older browsers**.
+  * Note: Create React App can consume both CommonJS and ES modules. For Node.js compatibility, it is recommended that the homePage entry point is CommonJS. However, they can optionally provide an ES module entry point with the `module` field in `package.json`. Note that **even if a library provides an ES Modules version, it should still precompile other ES6 features to ES5 if it intends to support older browsers**.
 
 2. Fork the package and publish a corrected version yourself. 
 

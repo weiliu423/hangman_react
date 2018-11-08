@@ -1,6 +1,6 @@
 .square{
     background-color: #3498db;
-    margin: 5px;
+    margin: 0.5vw;
     width: 4.5vw;;
     height: 4.5vw;
     min-height: 1%;
@@ -32,7 +32,7 @@
     max-height: 100%;
     min-width: 1%;
     max-width: 100%;
-    margin: 5px;
+    margin: 0.5vw;
     vertical-align: middle;
 
 }
@@ -40,32 +40,204 @@
     margin: 0 auto;
     position: relative;
     height: 50%;
-    width: 50%;
+    width: 100%;
     color: yellow;
 }
 .playButton {
     margin: auto;
     background: #3498db;
-    width: 180px;
+    width: 25vw;
     transform: translateX(-50%) translateY(-50%);
-    border-radius: 3px;
+    border-radius: 1vw;
     position: absolute;
     top: 50%;
 }
 .playButton:hover {
     cursor: pointer;
 }
-.loginButton{
+
+.speech-bubble {
+    background-color: #000000;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    width: 25vw;
+    text-align: center;
+    padding: 1vw;
     position: relative;
-    background-color: transparent;
-    width: 11vw;;
-    height: 4.5vw;
-    min-height: 1%;
-    max-height: 100%;
-    min-width: 1%;
-    max-width: 100%;
-    margin: 5px;
-    vertical-align: middle;
-    border: none;
+    font-size: 1vw;
+    color: white;
+    margin: auto;
+}
+.speech-bubble .arrow {
+    border-style: solid;
+    position: absolute;
+}
+.speech-bubble1 {
+    background-color: #000000;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    width: 15vw;
+    text-align: center;
+    padding: 1vw;
+    position: relative;
+    font-size: 1vw;
+    color: white;
+}
+.speech-bubble1 .arrow {
+    border-style: solid;
+    position: absolute;
+}
+.bottom {
+    border-color: #c8c8c8 transparent transparent transparent;
+    border-width: 8px 8px 0px 8px;
+    bottom: -8px;
+    right: 7px;
+}
+.bottom:after {
+    border-color: #f8f8f8 transparent transparent transparent;
+    border-style: solid;
+    border-width: 7px 7px 0px 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    left: -7px;
+}
+.bottom1 {
+    border-color: #c8c8c8 transparent transparent transparent;
+    border-width: 8px 8px 0px 8px;
+    bottom: -8px;
+}
+.bottom1:after {
+    border-color: #f8f8f8 transparent transparent transparent;
+    border-style: solid;
+    border-width: 7px 7px 0px 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    left: -7px;
 }
 
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 5px;
+    position: relative;
+}
+.column1 {
+    float: left;
+    width: 50%;
+    padding: 0.5vw;
+    position: relative;
+    margin: auto;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin: auto;
+}
+
+.close {
+    position: relative;
+    right: 2vw;
+    top: -1vw;
+    width: 0.2vw;
+    height: 2vw;
+    opacity: 0.3;
+}
+.close:hover {
+    opacity: 3;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 1vw;
+    content: ' ';
+    height: 2vw;
+    width: 0.2vw;
+    background-color: yellow;
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+
+.spin{
+    width: 100vw;
+    height: 1vw;
+    padding: 0;
+}
+.spin:hover {
+    color: #0eb7da;
+}
+.spin::before, .spin::after {
+    top: 0;
+    left: 0;
+}
+.spin::before {
+    border: 0.1vw solid transparent;
+}
+.spin:hover::before {
+    border-top-color: yellow;
+    border-right-color: yellow;
+    border-bottom-color: yellow;
+    border-left-color: green;
+    transition: border-top-color 0.20s linear, border-right-color 0.20s linear 0.2s, border-bottom-color 0.20s linear 0.3s;
+}
+.spin::after {
+    border: 1vw solid transparent;
+}
+.spin:hover::after {
+    border-top: 0.3vw solid yellow;
+    border-left-width: 1vw;
+    border-right-width: 1vw;
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    transition: transform 0.4s linear 0s, border-left-width 0s linear 0.35s, -webkit-transform 0.4s linear 0s;
+}
+
+.circle {
+    border-radius: 100%;
+    box-shadow: none;
+}
+.circle::before, .circle::after {
+    border-radius: 100%;
+}
+
+.myButton {
+    height: 7vw;
+    width: 7vw;
+    background: none;
+    box-sizing: border-box;
+    margin: 1em;
+    padding: 1em 2em;
+    box-shadow: inset 0 0 0 0.5vw black;
+    color: yellow;
+    opacity: 1;
+    font-size: 1vw;
+    font-weight: 700;
+    position: relative;
+    vertical-align: middle;
+
+}
+.myButton::before, .myButton::after {
+    box-sizing: inherit;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: yellow;
+}
+.myButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #000000), color-stop(1, #000000));
+    background:-moz-linear-gradient(top, #000000 5%, #000000 100%);
+    background:-webkit-linear-gradient(top, #000000 5%, #000000 100%);
+    background:-o-linear-gradient(top, #000000 5%, #000000 100%);
+    background:-ms-linear-gradient(top, #000000 5%, #000000 100%);
+    background:linear-gradient(to bottom, black 5%, #000000 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a',GradientType=0);
+    background-color: black;;
+}
