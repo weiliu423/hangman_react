@@ -23,12 +23,11 @@
     "react-native": "^0.57.4",
     "react-native-bounceable": "^0.2.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "^2.1.1",
     "react-string-replace": "^0.4.1",
     "react-styled-box": "^1.2.2",
     "react-tap-event-plugin": "^3.0.3",
     "uuid": "^3.3.2",
-    "webpack": "^3.11.0",
     "write-file-p": "^1.0.6",
     "write-json-file": "^3.0.2"
   },
@@ -41,5 +40,11 @@
   "devDependencies": {
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

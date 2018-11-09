@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import logo from './pics/1.png';
 import './Style/App.css';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import App from "./App";
 
 const row1 = ['A','B','C','D','E','F','G','H','I'];
 const row2 = ['J','K','L','M','N','O','P','Q'];
@@ -24,6 +25,7 @@ export class main extends Component {
             change: false,
             wordArray : [],
             img : [],
+            login: true,
             bubble1: "",
             bubble2: <div className="speech-bubble">
                 <button onClick={this.hideBubble.bind(this)} key={uuidv4()} className="close"/>
@@ -42,7 +44,12 @@ export class main extends Component {
         };
 
     }
-
+    componentWillMount() {
+        setTimeout(() => {
+            window.history.forward()
+        }, 0)
+        window.onunload= null;
+    }
     showBubble(){
         this.setState({ bubble1: <div className="speech-bubble1">
                 <button onClick={this.hideBubble1.bind(this)} key={uuidv4()} className="close"/>
@@ -50,6 +57,7 @@ export class main extends Component {
                 Click any letter button to start the game!
             </div> })
     }
+    "use strict";
     hideBubble(){
         this.setState({ bubble2: "" });
         this.showBubble();
@@ -71,8 +79,7 @@ export class main extends Component {
         cateG.push(Sport);
         cateG.push(Food);
         cateG.push(Countries);
-        categories = cateG[ranCate].Category;
-        console.log(categories);
+        categories = cateG[ranCate].Category;;
         let word;
         const maxNumber = 3;
         const randomNumber = Math.floor((Math.random() * maxNumber));
@@ -99,7 +106,6 @@ export class main extends Component {
     }
     clicked(letter) {
         let wordArray = this.state.wordArray;
-        console.log("length: " + wordArray.length);
         if(wordArray.length === 10)
         {
             {this.newGame()}
@@ -113,7 +119,6 @@ export class main extends Component {
             let array;
             array = words;
             let wordArray = this.state.wordArray;
-            console.log("array of answer " + answer);
             for(let x = 0; x < array.length; x++ )
             {
                 if(answer[x].includes(letter)) {
@@ -188,6 +193,7 @@ export class main extends Component {
                             <p>Game Played: {countGame[0]}</p>
                             <p>Won: {countGame[1]}</p>
                             <p>Lost: {countGame[2]}</p>
+                            <Link to={"/"}>Sign Out</Link>
                             {this.state.bubble1}
                         </div>
                     </div>
@@ -225,9 +231,7 @@ export class main extends Component {
         )
     }
     loadHangMan(){
-        console.log('length :  ' + this.state.wordArray.length);
         var images = require('./pics/hangman-'+this.state.wordArray.length+'.png');
-        console.log(images);
         return(    <img className={"img"} src={images} alt="Smiley face" />)
     }
     dynamicButton(letter) {
@@ -268,7 +272,15 @@ export class main extends Component {
     };
     render() {
         return (
-            this.main()
+            <Router>
+                <div>
+            <Route exact path="/" component={App}/>
+                <Route exact path="/main" render={
+                    () => {
+                        return (this.main());}
+                }/>
+                </div>
+            </Router>
         );
     }
 

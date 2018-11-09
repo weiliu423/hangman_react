@@ -17,6 +17,12 @@ export default class App extends Component {
             result: ""
         };
     }
+    componentWillMount() {
+        setTimeout(() => {
+            window.history.forward()
+        }, 0)
+        window.onunload= null;
+    }
     onShow = ()=> {
         this.setState({ show: true })
     };
@@ -47,8 +53,7 @@ export default class App extends Component {
     }
     handleSubmit(username, password, type) {
         this.onShow();
-        this.setState({ result: "Validating, Please Wait. Thank You" });
-        console.log("in handle");
+        this.setState({ result: "Validating, Please Wait. Thank You" });;
         var data = {
             "Username": username,
             "Password": password
@@ -63,7 +68,6 @@ export default class App extends Component {
             }).then(response => {
                 if (response.ok) {
                     response.json().then(json => {
-                        console.log("****************" + json.Success);
                         if (json.Success === true) {
                             setTimeout(function() { //Start the timer
                                 this.onHide();
@@ -80,7 +84,6 @@ export default class App extends Component {
                                 this.setState({ result: "Incorrect username or password!" })
                             }.bind(this), 2000);
                         }
-                        console.log(json);
                     });
                 }
 
@@ -94,7 +97,6 @@ export default class App extends Component {
                 }
             }).then(response => {
                     response.json().then(json => {
-                        console.log(json.Success);
                         if (json.Success === true) {
                             this.onHide();
                             this.setState({
@@ -108,7 +110,6 @@ export default class App extends Component {
                                 this.setState({ result: "User already exist!" })
                             }.bind(this), 2000);
                         }
-                        console.log(json);
                     });
             });
         }
@@ -120,7 +121,6 @@ export default class App extends Component {
         this.handleSubmit(this.state.username, this.state.password, "signup");
     };
     renderRedirect = () => {
-        console.log(this.state.redirect.toString());
         if (this.state.redirect) {
             return <Redirect to='/main' />;
         }
