@@ -72,7 +72,7 @@ export default class App extends Component {
                 if (response.ok) {
                     response.json().then(json => {
                         if (json.Success === true) {
-                            setTimeout(function() { //Start the timer
+                            setTimeout(function() {
                                 this.onHide();
                                 this.setState({ result: "Success"});
                                 account = username;
@@ -83,7 +83,7 @@ export default class App extends Component {
                             return true
                         }
                         else {
-                            setTimeout(function() { //Start the timer
+                            setTimeout(function() {
                                 this.onHide();
                                 this.setState({ result: "Incorrect username or password!" })
                             }.bind(this), 2000);
@@ -110,7 +110,7 @@ export default class App extends Component {
                             return true
                         }
                         else {
-                            setTimeout(function() { //Start the timer
+                            setTimeout(function() {
                                 this.onHide();
                                 this.setState({ result: "User already exist!" })
                             }.bind(this), 2000);

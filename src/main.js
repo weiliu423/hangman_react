@@ -35,9 +35,9 @@ export class main extends Component {
                 <div className="arrow bottom right"/>
                 Rules:
                 <br />
-                1.Start guessing letters if you are the player.
+                1.Start guessing letters.
                 <br />
-                2.Fill the letter in the blanks if the players guess correctly.
+                2.Fill the letter in the box if player guess correctly.
                 <br />
                 3.Draw part of the "hangman" when the players guess wrong.
                 <br />
@@ -48,8 +48,6 @@ export class main extends Component {
 
         username = App.account();
         this.checkForScore = this.checkForScore.bind(this);
-       // this.changeState = this.changeState.bind(this);
-
     }
     componentWillMount() {
         setTimeout(() => {
@@ -61,7 +59,6 @@ export class main extends Component {
         {this.checkForScore()}
     }
     checkForScore(){
-        console.log("name " + username);
             fetch('https://mvchub.azurewebsites.net/getScore?userId='+username, {
                 method: 'GET',
                 headers: {
@@ -77,8 +74,6 @@ export class main extends Component {
                             countGame[i] = data[i];
                         }
                         this.setState({ result: "Success"});
-                        console.log(countGame.toString()+ " count");
-                        console.log(data.toString());
                         return true;
                     });
                 }
@@ -139,7 +134,7 @@ export class main extends Component {
     }
     clicked(letter) {
         let wordArray = this.state.wordArray;
-        if(wordArray.length === 10)
+        if(wordArray.length === 9)
         {
             {this.newGame()}
             wordArray = [];
@@ -161,9 +156,7 @@ export class main extends Component {
             if(!answer.includes(letter)) {
                 wordArray.push(letter);
             }
-            // array = [];
             this.setState({wordArray});
-            // array.map((numbers, i) => {return homePage.updateLabel(i,letter)});
         }
 
     }
@@ -186,9 +179,7 @@ export class main extends Component {
                     <button className="playButton" key={uuidv4()} onClick={this.startNewGame.bind(this)}>PLAY AGAIN?</button>
                 </div>
             )
-            /*words = [];
-            {this.addWord()}*/
-        }else if(wordArray.length === 10)
+        }else if(wordArray.length === 9)
         {
             countGame[2]++;
             let str = answer;
@@ -224,7 +215,7 @@ export class main extends Component {
                             <p>Game Played: {countGame[0]}</p>
                             <p>Won: {countGame[1]}</p>
                             <p>Lost: {countGame[2]}</p>
-                            <Link to={"/"} onClick={this.changeState}>Sign Out</Link>
+                            <Link class={"logout"} to={"/"} onClick={this.changeState}>Sign Out</Link>
                             {this.state.bubble1}
                         </div>
                     </div>
@@ -259,7 +250,6 @@ export class main extends Component {
             }
 
         });
-        // this.setState({change : true});
          this.setState({result : "SignOut"});
     }
     startNewGame()
@@ -308,7 +298,6 @@ export class main extends Component {
         rows.push(<tr><td>{children1}</td></tr>);
         children2.push(row3.map((row3, i) => {return this.dynamicButton(row3)}));
         rows.push(<tr><td>{children2}</td></tr>);
-        //children.push(data.map((data) => <Button bsStyle="warning" bsSize="large" >{data}</Button>));
         table.push(<table className="tableClass"><tbody>{rows}</tbody></table>);
         return table
 
