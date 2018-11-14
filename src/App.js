@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import fetch from 'node-fetch';
 import './Style/loading.css'
 
+let account;
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ export default class App extends Component {
     componentWillMount() {
         setTimeout(() => {
             window.history.forward()
-        }, 0)
+        }, 0);
         window.onunload= null;
     }
     onShow = ()=> {
@@ -31,7 +32,9 @@ export default class App extends Component {
     };
     componentDidMount() {
     }
-
+    static account(){
+        return account;
+    }
     loading(){
         if(this.state.show){
             return <div className={"space"}>
@@ -72,6 +75,7 @@ export default class App extends Component {
                             setTimeout(function() { //Start the timer
                                 this.onHide();
                                 this.setState({ result: "Success"});
+                                account = username;
                                 this.setState({
                                     redirect: true
                                 });
@@ -99,6 +103,7 @@ export default class App extends Component {
                     response.json().then(json => {
                         if (json.Success === true) {
                             this.onHide();
+                            account = username;
                             this.setState({
                                 redirect: true
                             });
@@ -122,6 +127,7 @@ export default class App extends Component {
     };
     renderRedirect = () => {
         if (this.state.redirect) {
+            this.forceUpdate();
             return <Redirect to='/main' />;
         }
     };

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './Style/App.css';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import App from "./App";
+import fetch from "node-fetch";
 
 const row1 = ['A','B','C','D','E','F','G','H','I'];
 const row2 = ['J','K','L','M','N','O','P','Q'];
@@ -14,6 +15,7 @@ var Sport = require('./data/Sport.json');
 var Food = require('./data/Food.json');
 var Countries = require('./data/Countries.json');
 const uuidv4 = require('uuid/v4');
+let username;
 
 export class main extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ export class main extends Component {
             img : [],
             login: true,
             bubble1: "",
+            result : "",
             bubble2: <div className="speech-bubble">
                 <button onClick={this.hideBubble.bind(this)} key={uuidv4()} className="close"/>
                 <div className="arrow bottom right"/>
@@ -43,12 +46,43 @@ export class main extends Component {
             </div>
         };
 
+        username = App.account();
+        this.checkForScore = this.checkForScore.bind(this);
+       // this.changeState = this.changeState.bind(this);
+
     }
     componentWillMount() {
         setTimeout(() => {
             window.history.forward()
-        }, 0)
+        }, 0);
         window.onunload= null;
+    }
+    componentDidMount(){
+        {this.checkForScore()}
+    }
+    checkForScore(){
+        console.log("name " + username);
+            fetch('https://mvchub.azurewebsites.net/getScore?userId='+username, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(json => {
+                        let data = json.Data.split(":");
+                        for(let i = 0; i < countGame.length; i++)
+                        {
+                            countGame[i] = data[i];
+                        }
+                        this.setState({ result: "Success"});
+                        console.log(countGame.toString()+ " count");
+                        console.log(data.toString());
+                        return true;
+                    });
+                }
+            });
     }
     showBubble(){
         this.setState({ bubble1: <div className="speech-bubble1">
@@ -86,7 +120,6 @@ export class main extends Component {
 
         const data = require('./data/'+categories+'.json');
         word = data.Answers[randomNumber].Word;
-
         for(let i = 0; i < word.length; i++)
         {
             words.push('_');
@@ -131,16 +164,14 @@ export class main extends Component {
             // array = [];
             this.setState({wordArray});
             // array.map((numbers, i) => {return homePage.updateLabel(i,letter)});
-            this.setState({change : true});
         }
 
     }
     newGame(){
-
         let wordArray = this.state.wordArray;
         if(JSON.stringify(answer) === JSON.stringify(words))
         {
-            countGame[1] = countGame[1] + 1;
+            countGame[1]++;
             let str = answer;
             words = [];
             answer = [];
@@ -159,7 +190,7 @@ export class main extends Component {
             {this.addWord()}*/
         }else if(wordArray.length === 10)
         {
-            countGame[2] = countGame[2] + 1;
+            countGame[2]++;
             let str = answer;
             words = [];
             answer = [];
@@ -193,7 +224,7 @@ export class main extends Component {
                             <p>Game Played: {countGame[0]}</p>
                             <p>Won: {countGame[1]}</p>
                             <p>Lost: {countGame[2]}</p>
-                            <Link to={"/"}>Sign Out</Link>
+                            <Link to={"/"} onClick={this.changeState}>Sign Out</Link>
                             {this.state.bubble1}
                         </div>
                     </div>
@@ -206,9 +237,34 @@ export class main extends Component {
             )
         }
     }
+
+    changeState(){
+        var data = {
+            "userId": username,
+            "played": countGame[0],
+            "won": countGame[1],
+            "lost": countGame[2]
+        };
+        fetch('https://mvchub.azurewebsites.net/updateScore/', {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                response.json().then(json => {
+                    return json.Success;
+                });
+            }
+
+        });
+        // this.setState({change : true});
+         this.setState({result : "SignOut"});
+    }
     startNewGame()
     {
-        countGame[0] = countGame[0] + 1;
+        countGame[0]++;
         words = [];
         answer = [];
         {this.addWord()}

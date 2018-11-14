@@ -3,15 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.1.1",
-    "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
-    "chalk": "^2.0.1",
-    "cors": "^2.8.4",
     "jquery": "^3.3.1",
     "json-loader": "^0.5.7",
     "jsonfile": "^5.0.0",
-    "material-ui": "^0.20.2",
     "node-fetch": "^2.2.0",
     "react": "^16.5.1",
     "react-bootstrap": "^0.32.4",
@@ -27,9 +22,7 @@
     "react-string-replace": "^0.4.1",
     "react-styled-box": "^1.2.2",
     "react-tap-event-plugin": "^3.0.3",
-    "uuid": "^3.3.2",
-    "write-file-p": "^1.0.6",
-    "write-json-file": "^3.0.2"
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
